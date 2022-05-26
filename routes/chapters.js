@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:audiobook_id/epsiode", async (req, res) => {
+router.get("/:audiobook_id/chapter", async (req, res) => {
   try {
     const result = await AudioBook.findById(req.params.audiobook_id);
     res.json(result.chapter);
@@ -22,10 +22,10 @@ router.get("/:audiobook_id/epsiode", async (req, res) => {
     res.json({ message: error });
   }
 });
-router.get("/:audiobook_id/epsiode/:epsiode_id", async (req, res) => {
+router.get("/:audiobook_id/chapter/:chapter_id", async (req, res) => {
   try {
     const result = await AudioBook.findById(req.params.audiobook_id);
-    res.json(result.chapter.id(req.params.epsiode_id));
+    res.json(result.chapter.id(req.params.chapter_id));
   } catch (error) {
     res.json({ message: error });
   }
@@ -33,10 +33,10 @@ router.get("/:audiobook_id/epsiode/:epsiode_id", async (req, res) => {
 /*
     search a episode name using episode name
 */
-router.get("/:episode_id", async (req, res) => {
+router.get("/:chapter_id", async (req, res) => {
   try {
-    const result = await AudioBook.findById(req.params.episode_id);
-    res.json(result.chapter._id(req.params.episode_id));
+    const result = await AudioBook.findById(req.params.chapter_id);
+    res.json(result.chapter._id(req.params.chapter_id));
   } catch (error) {
     res.json({ message: error });
   }
@@ -69,24 +69,24 @@ router.delete("/:episodeID", async (req, res) => {
 /*
     Update a episode by episode ID
 */
-router.put("/:episode_id", async (req, res) => {
+router.put("/:chapter_id", async (req, res) => {
   try {
     const id_finder = await AudioBook.find({
-      chapter: { $elemMatch: { _id: req.params.episode_id } },
+      Chapters: { $elemMatch: { _id: req.params.chapter_id } },
     });
 
     const edit_chapter = await AudioBook.updateMany(
       {
-        "chapter.chapter_name": id_finder[0].chapter[0].chapter_name,
+        "Chapters.chapter_name": id_finder[0].Chapters[0].chapter_name,
       },
       {
         $set: {
-          "chapter.$.chapter_name": req.body.chapter_name,
-          "chapter.$.chapter_audio": req.body.chapter_audio,
-          "chapter.$.chapter_category": req.body.chapter_category,
-          "chapter.$.chapter_length": req.body.chapter_length,
-          "chapter.$.chapter_description": req.body.chapter_description,
-          "chapter.$.chapter_released_date": req.body.chapter_released_date,
+          "Chapters.$.chapter_name": req.body.chapter_name,
+          "Chapters.$.chapter_audio": req.body.chapter_audio,
+          "Chapters.$.chapter_category": req.body.chapter_category,
+          "Chapters.$.chapter_length": req.body.chapter_length,
+          "Chapters.$.chapter_description": req.body.chapter_description,
+          "Chapters.$.chapter_released_date": req.body.chapter_released_date,
         },
       },
       { new: true }

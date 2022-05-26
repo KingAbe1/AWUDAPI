@@ -1,5 +1,5 @@
 const express = require("express");
-const AudioBook = require("../models/podcast_model");
+const AudioBook = require("../models/audioBook");
 const router = express.Router();
 
 /*  
@@ -62,7 +62,7 @@ router.post("/:chapter_id", async (req, res) => {
 */
 router.get("/:audiobook_title", async (req, res) => {
   try {
-    const result = await AudioBook.find({ _id: req.params.chapter_title });
+    const result = await AudioBook.find({ _id: req.params.audiobook_title });
     res.json(result);
   } catch (error) {
     res.json({ message: error });

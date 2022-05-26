@@ -19,7 +19,7 @@ const Chapter = mongoose.Schema({
   chapter_description: {
     type: String,
   },
-  episode_released_date: {
+  chapter_released_date: {
     type: String,
   },
 });
